@@ -8,9 +8,19 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display heading', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('test-assignment app is running!');
+    expect(page.getTitleText()).toEqual('Login Page');
+  });
+
+  it('should display error message', () => {
+    page.navigateTo();
+    expect(page.checkError()).toEqual('Invalid Credentials');
+  });
+
+  it('should navigate to dashboard', () => {
+    page.navigateTo();
+    expect(page.checkLogin()).toEqual('Dashboard');
   });
 
   afterEach(async () => {
