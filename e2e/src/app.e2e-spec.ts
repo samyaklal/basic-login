@@ -6,21 +6,65 @@ describe('workspace-project App', () => {
 
   beforeEach(() => {
     page = new AppPage();
+    page.navigateTo();
   });
 
   it('should display heading', () => {
-    page.navigateTo();
     expect(page.getTitleText()).toEqual('Login Page');
   });
 
-  it('should display error message', () => {
-    page.navigateTo();
+  it('should display input field for user name with correct placeholder', () => {
+    expect(page.getUserNamePlaceholder()).toBe('User Name');
+  });
+  
+  it('should display input field for password with correct placeholder', () => {
+    expect(page.getPasswordPlaceholder()).toBe('Password');
+  });
+
+  it('should display login button', () => {
+    expect(page.getLoginButtonText()).toBe('Login');
+  });
+
+  it('should display error message on empty user name', () => {
+    page.setPassword('password');
+
+    page.login();
+
+    expect(page.checkError()).toEqual('Invalid Credentials');
+  });
+
+  it('should display error message on empty password', () => {
+    page.setUserName('username');
+
+    page.login();
+    
+    expect(page.checkError()).toEqual('Invalid Credentials');
+  });
+
+  it('should display error message on wrong credentials', () => {
+    page.setUserName('wrong user name');
+    page.setPassword('wrong password');
+
+    page.login();
+    
+    expect(page.checkError()).toEqual('Invalid Credentials');
+  });
+
+  it('should display error message on empty credentials', () => {
+    page.login();
+    
     expect(page.checkError()).toEqual('Invalid Credentials');
   });
 
   it('should navigate to dashboard', () => {
-    page.navigateTo();
-    expect(page.checkLogin()).toEqual('Dashboard');
+    page.setUserName('username');
+    page.setPassword('password');
+
+    page.login();
+
+    browser.waitForAngular();
+    
+    expect(page.getTitleText()).toEqual('Dashboard');
   });
 
   afterEach(async () => {

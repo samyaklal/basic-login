@@ -26,15 +26,43 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show error on wrong credentials', () => {
+  it('should show error on empty credentials', () => {
     component.login();
+
+    expect(component.showError).toBeTrue();
+  });
+
+  it('should show error on empty username', () => {
+    component.password = 'password';
+
+    component.login();
+    
+    expect(component.showError).toBeTrue();
+  });
+
+  it('should show error on empty password', () => {
+    component.userName = 'username';
+    
+    component.login();
+    
     expect(component.showError).toBeTrue();
   });
 
   it('should not show error on wrong credentials', () => {
-    component.userName = 'admin';
-    component.password = 'admin';
+    component.userName = 'wrongUsername';
+    component.password = 'wrongPassword';
+    
     component.login();
+    
+    expect(component.showError).toBeTrue();
+  });
+
+  it('should not show error on wrong credentials', () => {
+    component.userName = 'username';
+    component.password = 'password';
+    
+    component.login();
+    
     expect(component.showError).toBeFalse();
   });
 });
