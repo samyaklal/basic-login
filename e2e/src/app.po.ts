@@ -1,9 +1,9 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
 
 export class AppPage {
-  userName = element(by.className('user-name'));
-  password = element(by.className('password'));
-  loginButton = element(by.tagName('button'));
+  userName: ElementFinder = element(by.className('user-name'));
+  password: ElementFinder = element(by.className('password'));
+  loginButton: ElementFinder = element(by.tagName('button'));
 
   navigateTo(): Promise<unknown> {
     return browser.get(browser.baseUrl) as Promise<unknown>;

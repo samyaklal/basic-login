@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -26,38 +26,46 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show error on empty credentials', () => {
+  it('should show error on empty credentials', fakeAsync(() => {
     component.login();
 
+    tick();
+    
     expect(component.showError).toBeTrue();
-  });
+  }));
 
-  it('should show error on empty username', () => {
+  it('should show error on empty username', fakeAsync(() => {
     component.password = 'password';
 
     component.login();
     
+    tick();
+    
     expect(component.showError).toBeTrue();
-  });
+  }));
 
-  it('should show error on empty password', () => {
+  it('should show error on empty password', fakeAsync(() => {
     component.userName = 'username';
     
     component.login();
+
+    tick();
     
     expect(component.showError).toBeTrue();
-  });
+  }));
 
-  it('should not show error on wrong credentials', () => {
+  it('should show error on wrong credentials', fakeAsync(() => {
     component.userName = 'wrongUsername';
     component.password = 'wrongPassword';
     
     component.login();
     
+    tick();
+    
     expect(component.showError).toBeTrue();
-  });
+  }));
 
-  it('should not show error on wrong credentials', () => {
+  it('should not show error on correct credentials', () => {
     component.userName = 'username';
     component.password = 'password';
     

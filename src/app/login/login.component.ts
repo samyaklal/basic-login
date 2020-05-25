@@ -1,32 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-const credentials = {
-  admin: "admin",
-  username: "password"
-};
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
   userName: string = "";
   password: string = "";
   showError: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private loginService: LoginService  
+  ) { }
 
   ngOnInit(): void {
   }
 
   login(): void {
-    if(credentials[this.userName] && this.password === credentials[this.userName]) {
-      this.showError = false;
-      this.router.navigate(["dashboard"]);
-    } else {
-      this.showError = true;
-    }
-  }
+    this.loginService.validateCredentials(this.userName, this.password).then(result => {
+      if(result) {
+        this.showError = false;
+        this.router.navigate(["dashboard"]);
+      } else {
+        this.showError = true;
+      }
+    });
+  }  
 }
